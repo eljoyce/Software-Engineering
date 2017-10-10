@@ -13,12 +13,12 @@ class Node<T> {
 }
  
 // Note: 
-public class LowestCommonAncestor 
+public class LowestCommonAncestor<T>
 {
  
     Node root;
-    private List<Integer> nodePath1 = new ArrayList<>();
-    private List<Integer> nodePath2 = new ArrayList<>();
+    private List<T> nodePath1 = new ArrayList<>();
+    private List<T> nodePath2 = new ArrayList<>();
     //will use lists as a method to track the nodes tha
     
     int findLowestCommonAncestor(int node1, int node2) {

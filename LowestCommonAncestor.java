@@ -21,13 +21,13 @@ public class LowestCommonAncestor<T>
     private List<T> nodePath2 = new ArrayList<>();
     //will use lists as a method to track the nodes tha
     
-    int findLowestCommonAncestor(int node1, int node2) {
+    T LowestCommonAncestor(T node1, T node2) {
     	nodePath1.clear();
     	nodePath2.clear();
-        return findLCAInternal(root, node1, node2);
+        return findLowestCommonAncestor(root, node1, node2);
     }
  
-    private int findLCAInternal(Node root, int n1, int n2) {
+    private T findLowestCommonAncestor(Node root, T n1, T n2) {
  
         if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
             System.out.println((nodePath1.size() > 0) ? "n1 is present" : "n1 is missing");
@@ -81,10 +81,10 @@ public class LowestCommonAncestor<T>
         tree.root.right.left = new Node(6);
         tree.root.right.right = new Node(7);
  
-        System.out.println("LCA(4, 5): " + tree.findLowestCommonAncestor(4,5));
-        System.out.println("LCA(4, 6): " + tree.findLowestCommonAncestor(4,6));
-        System.out.println("LCA(3, 4): " + tree.findLowestCommonAncestor(3,4));
-        System.out.println("LCA(2, 4): " + tree.findLowestCommonAncestor(2,4));
+        System.out.println("LCA(4, 5): " + tree.LowestCommonAncestor(4,5));
+        System.out.println("LCA(4, 6): " + tree.LowestCommonAncestor(4,6));
+        System.out.println("LCA(3, 4): " + tree.LowestCommonAncestor(3,4));
+        System.out.println("LCA(2, 4): " + tree.LowestCommonAncestor(2,4));
        /* System.out.println("LCA(4, 7): " + tree.findLCA(4,7));
         System.out.println("LCA(4, 8): " + tree.findLCA(4,8));
         System.out.println("LCA(1, 1): " + tree.findLCA(1,1)); */

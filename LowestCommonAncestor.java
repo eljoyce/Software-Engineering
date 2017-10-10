@@ -3,7 +3,8 @@ import java.util.List;
  
 class Node {
     int data;
-    Node left, right;
+    Node left;
+    Node right;
  
     Node(int value) {
         data = value;
@@ -11,35 +12,37 @@ class Node {
     }
 }
  
+// Note: 
 public class LowestCommonAncestor 
 {
  
     Node root;
-    private List<Integer> path1 = new ArrayList<>();
-    private List<Integer> path2 = new ArrayList<>();
- 
+    private List<Integer> nodePath1 = new ArrayList<>();
+    private List<Integer> nodePath2 = new ArrayList<>();
+    //will use lists as a method to track the nodes tha
+    
     int findLowestCommonAncestor(int node1, int node2) {
-        path1.clear();
-        path2.clear();
+    	nodePath1.clear();
+    	nodePath2.clear();
         return findLCAInternal(root, node1, node2);
     }
  
     private int findLCAInternal(Node root, int n1, int n2) {
  
-        if (!findPath(root, n1, path1) || !findPath(root, n2, path2)) {
-            System.out.println((path1.size() > 0) ? "n1 is present" : "n1 is missing");
-            System.out.println((path2.size() > 0) ? "n2 is present" : "n2 is missing");
+        if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
+            System.out.println((nodePath1.size() > 0) ? "n1 is present" : "n1 is missing");
+            System.out.println((nodePath2.size() > 0) ? "n2 is present" : "n2 is missing");
             return -1;
         }
  
         int i;
-        for (i = 0; i < path1.size() && i < path2.size(); i++) {
+        for (i = 0; i < nodePath1.size() && i < nodePath2.size(); i++) {
           //  System.out.println(path1.get(i) + " " + path2.get(i));
-            if (!path1.get(i).equals(path2.get(i)))
+            if (!nodePath1.get(i).equals(nodePath2.get(i)))
                 break;
         }
  
-        return path1.get(i-1);
+        return nodePath1.get(i-1);
     }
  
     private boolean findPath(Node root, int n, List<Integer> path)
@@ -69,7 +72,7 @@ public class LowestCommonAncestor
  
     public static void main(String[] args)
     {
-        BT_NoParentPtr_Solution1 tree = new BT_NoParentPtr_Solution1();
+    	LowestCommonAncestor tree = new LowestCommonAncestor();
         tree.root = new Node(1);
         tree.root.left = new Node(2);
         tree.root.right = new Node(3);
@@ -78,13 +81,13 @@ public class LowestCommonAncestor
         tree.root.right.left = new Node(6);
         tree.root.right.right = new Node(7);
  
-        System.out.println("LCA(4, 5): " + tree.findLCA(4,5));
-        System.out.println("LCA(4, 6): " + tree.findLCA(4,6));
-        System.out.println("LCA(3, 4): " + tree.findLCA(3,4));
-        System.out.println("LCA(2, 4): " + tree.findLCA(2,4));
+        System.out.println("LCA(4, 5): " + tree.findLowestCommonAncestor(4,5));
+        System.out.println("LCA(4, 6): " + tree.findLowestCommonAncestor(4,6));
+        System.out.println("LCA(3, 4): " + tree.findLowestCommonAncestor(3,4));
+        System.out.println("LCA(2, 4): " + tree.findLowestCommonAncestor(2,4));
        /* System.out.println("LCA(4, 7): " + tree.findLCA(4,7));
         System.out.println("LCA(4, 8): " + tree.findLCA(4,8));
         System.out.println("LCA(1, 1): " + tree.findLCA(1,1)); */
     }
 }
-// This code is contributed by Sreenivasulu Rayanki.
+

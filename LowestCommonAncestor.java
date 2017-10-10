@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
  
-class Node {
-    int data;
+class Node<T> {
+    T data;
     Node left;
     Node right;
  
-    Node(int value) {
+    Node(T value) {
         data = value;
         left = right = null;
     }

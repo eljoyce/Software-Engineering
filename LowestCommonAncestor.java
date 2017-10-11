@@ -3,6 +3,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 
+
+class Node<Key extends Comparable<Key>> {
+	private Node left;             
+	private Node right;
+	private Key data;
+	private int N;             // number of nodes in subtree
+
+	public Node(Key value, int N) {
+		this.data = value;         // associated data
+		left = right = null;	  // left and right subtrees
+		this.N = N;
+	}
+}
 // Note: 
 public class LowestCommonAncestor<Key extends Comparable<Key>>
 {
@@ -19,6 +32,27 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 			left = right = null;	  // left and right subtrees
 			this.N = N;
 		}
+	}
+	/**
+	 *  Insert node into BST.
+	 *  If key already exists, update with new value.
+	 *
+	 *  @param key the key to insert
+	 *  @param val the value associated with key
+	 */
+	public void put(Key key) {
+		if (key == null) { delete(key); return; }
+		root = put(root, key);
+	}
+
+	private Node put(Node x, Key key) {
+		if (x == null) return new Node(key, 1);
+		int cmp = key.compareTo(x.data);
+		if      (cmp < 0) x.left  = put(x.left,  key);
+		else if (cmp > 0) x.right = put(x.right, key);
+		else              x.data   = key;
+		x.N = 1 + size(x.left) + size(x.right);
+		return x;
 	}
 	
 	// is the tree empty?
@@ -37,54 +71,81 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 	private List<Key> nodePath2 = new ArrayList<>();
 	//will use lists as a method to track the nodes tha
 
-	Key lowestCommonAncestor(Key node1, Key node2) {
-		nodePath1.clear();
-		nodePath2.clear();
-		return findLowestCommonAncestor(root, node1, node2);
-	}
-
-	private Key findLowestCommonAncestor(Node root, Key n1, Key n2) {
-
-		if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
-			System.out.println((nodePath1.size() > 0) ? "n1 is present" : "n1 is missing");
-			System.out.println((nodePath2.size() > 0) ? "n2 is present" : "n2 is missing");
-			return -1;
-		}
-
-		int i;
-		for (i = 0; i < nodePath1.size() && i < nodePath2.size(); i++) {
-			//  System.out.println(path1.get(i) + " " + path2.get(i));
-			if (!nodePath1.get(i).equals(nodePath2.get(i)))
-				break;
-		}
-
-		return nodePath1.get(i-1);
-	}
-
-	private boolean findPath(Node root, int n, List<Integer> path)
-	{
-		if (root == null) {
-			return false;
-		}
-
-		path.add(root.data);
-
-		if (root.data == n) {
-			return true;
-		}
-
-		if (root.left != null && findPath(root.left, n, path)) {
-			return true;
-		}
-
-		if (root.right != null && findPath(root.right, n, path)) {
-			return true;
-		}
-
-		path.remove(path.size()-1);
-
-		return false;
-	}
-
+//	Key lowestCommonAncestor(Key node1, Key node2) {
+//		nodePath1.clear();
+//		nodePath2.clear();
+//		return findLowestCommonAncestor(root, node1, node2);
+//	}
 	
+	/**
+	 *  Search BST for given key.
+	 *  Does there exist a key-value pair with given key?
+	 *
+	 *  @param key the search key
+	 *  @return true if key is found and false otherwise
+	 */
+	public boolean contains(Key key) {
+		return get(key) != null;
+	}
+	/**
+	 *  Search BST for given key.
+	 *  What is the value associated with given key?
+	 *
+	 *  @param key the search key
+	 *  @return value associated with the given key if found, or null if no such key exists.
+	 */
+	public Key get(Key key) { return get(root, key); }
 
+	private Key get(Node x, Key key) {
+		if (x == null) return null;
+		int cmp = key.compareTo(x.data);
+		if      (cmp < 0) return get(x.left, key);
+		else if (cmp > 0) return get(x.right, key);
+		else              return x.data;
+	}
+}
+//	private Key findLowestCommonAncestor(Node root, Key n1, Key n2) {
+//
+//		if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
+//			System.out.println((nodePath1.size() > 0) ? "n1 is present" : "n1 is missing");
+//			System.out.println((nodePath2.size() > 0) ? "n2 is present" : "n2 is missing");
+//			return -1;
+//		}
+//
+//		int i;
+//		for (i = 0; i < nodePath1.size() && i < nodePath2.size(); i++) {
+//			//  System.out.println(path1.get(i) + " " + path2.get(i));
+//			if (!nodePath1.get(i).equals(nodePath2.get(i)))
+//				break;
+//		}
+//
+//		return nodePath1.get(i-1);
+//	}
+//
+//	private boolean findPath(Node root, int n, List<Integer> path)
+//	{
+//		if (root == null) {
+//			return false;
+//		}
+//
+//		path.add(root.data);
+//
+//		if (root.data == n) {
+//			return true;
+//		}
+//
+//		if (root.left != null && findPath(root.left, n, path)) {
+//			return true;
+//		}
+//
+//		if (root.right != null && findPath(root.right, n, path)) {
+//			return true;
+//		}
+//
+//		path.remove(path.size()-1);
+//
+//		return false;
+//	}
+//
+//	
+//

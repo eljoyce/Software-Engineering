@@ -1,25 +1,37 @@
 import java.util.ArrayList;
 import java.util.List;
-
-import BST.Node;
-
+import java.util.NoSuchElementException;
 
 
 // Note: 
 public class LowestCommonAncestor<Key extends Comparable<Key>>
 {
+	private Node root;
+	
 	class Node {
 		private Node left;             
 		private Node right;
 		private Key data;
+		private int N;             // number of nodes in subtree
 
-
-		public Node(Key value) {
+		public Node(Key value, int N) {
 			this.data = value;         // associated data
 			left = right = null;	  // left and right subtrees
+			this.N = N;
 		}
 	}
-	Node root;
+	
+	// is the tree empty?
+	public boolean isEmpty() { return size() == 0; }
+	
+	// return number of nodes in the tree
+	public int size() { return size(root); }
+	
+	// return number of key-value pairs in BST rooted at x
+		private int size(Node x) {
+			if (x == null) return 0;
+			else return x.N;
+		}
 	
 	private List<Key> nodePath1 = new ArrayList<>();
 	private List<Key> nodePath2 = new ArrayList<>();
@@ -30,33 +42,7 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 		nodePath2.clear();
 		return findLowestCommonAncestor(root, node1, node2);
 	}
-	
-	/**
-	 *  Search BST for given key.
-	 *  Does there exist a key-value pair with given key?
-	 *
-	 *  @param key the search key
-	 *  @return true if key is found and false otherwise
-	 */
-	public boolean contains(Key key) {
-		return get(key) != null;
-	}
-	/**
-	 *  Search BST for given key.
-	 *  What is the value associated with given key?
-	 *
-	 *  @param key the search key
-	 *  @return value associated with the given key if found, or null if no such key exists.
-	 */
-	public Value get(Key key) { return get(root, key); }
 
-	private Value get(Node x, Key key) {
-		if (x == null) return null;
-		int cmp = key.compareTo(x.key);
-		if      (cmp < 0) return get(x.left, key);
-		else if (cmp > 0) return get(x.right, key);
-		else              return x.val;
-	}
 	private Key findLowestCommonAncestor(Node root, Key n1, Key n2) {
 
 		if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {

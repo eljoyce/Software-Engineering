@@ -66,27 +66,40 @@ public class LowestCommonAncestorTest {
 		bst.put(7);
 		assertFalse("Checking isEmpty() returns false when bst isn't empty",bst.isEmpty());
 	}
+	@Test
+	public void testDelete() {
+		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
+		bst.delete(1);
+		assertEquals("Deleting from empty tree", "()", bst.printKeysInOrder());
 
-	
-//	public static void main(String[] args)
-//	{
-//		LowestCommonAncestor tree = new LowestCommonAncestor();
-//		tree.root = new Node(1);
-//		tree.root.left = new Node(2);
-//		tree.root.right = new Node(3);
-//		tree.root.left.left = new Node(4);
-//		tree.root.left.right = new Node(5);
-//		tree.root.right.left = new Node(6);
-//		tree.root.right.right = new Node(7);
-//
-//		System.out.println("LCA(4, 5): " + tree.LowestCommonAncestor(4,5));
-//		System.out.println("LCA(4, 6): " + tree.LowestCommonAncestor(4,6));
-//		System.out.println("LCA(3, 4): " + tree.LowestCommonAncestor(3,4));
-//		System.out.println("LCA(2, 4): " + tree.LowestCommonAncestor(2,4));
-//		/* System.out.println("LCA(4, 7): " + tree.findLCA(4,7));
-//        System.out.println("LCA(4, 8): " + tree.findLCA(4,8));
-//        System.out.println("LCA(1, 1): " + tree.findLCA(1,1)); */
-//	}
-//}
+		bst.put(7);   //        _7_
+		bst.put(8);   //      /     \
+		bst.put(3);   //    _3_      8
+		bst.put(1);   //  /     \
+		bst.put(2);   // 1       6
+		bst.put(6);   //  \     /
+		bst.put(4);   //   2   4
+		bst.put(5);   //        \
+		//         5
+
+		assertEquals("Checking order of constructed tree",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+
+		bst.delete(9);
+		assertEquals("Deleting non-existent key",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+
+		bst.delete(8);
+		assertEquals("Deleting leaf", "(((()1(()2()))3((()4(()5()))6()))7())", bst.printKeysInOrder());
+
+		bst.delete(6);
+		assertEquals("Deleting node with single child",
+				"(((()1(()2()))3(()4(()5())))7())", bst.printKeysInOrder());
+
+		bst.delete(3);
+		assertEquals("Deleting node with two children",
+				"(((()1())2(()4(()5())))7())", bst.printKeysInOrder());
+	}
+
 
 }

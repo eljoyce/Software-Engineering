@@ -18,19 +18,6 @@ class Node<Key extends Comparable<Key>> {
 public class LowestCommonAncestor<Key extends Comparable<Key>>
 {
 	private Node root;
-	
-	class Node {
-		private Node left;             
-		private Node right;
-		private Key data;
-		private int N;             // number of nodes in subtree
-
-		public Node(Key value, int N) {
-			this.data = value;         // associated data
-			left = right = null;	  // left and right subtrees
-			this.N = N;
-		}
-	}
 	/**
 	 *  Insert node into BST.
 	 *  If key already exists, update with new value.

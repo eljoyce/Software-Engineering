@@ -104,6 +104,16 @@ public class LowestCommonAncestorTest {
 	public void testLowestCommonAncestor(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertEquals("Function returns null as binary tree is empty", null, bst.findLowestCommonAncestor(1,2));
+		bst.put(7);   //        _7_
+		bst.put(8);   //      /     \
+		bst.put(3);   //    _3_      8
+		bst.put(1);   //  /     \
+		bst.put(2);   // 1       6
+		bst.put(6);   //  \     /
+		bst.put(4);   //   2   4
+		bst.put(5);   //        \
+					  //         5
+		assertEquals("Function returns root as lca", 7, bst.findLowestCommonAncestor(2, 8));
 	}
 
 

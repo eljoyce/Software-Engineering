@@ -101,12 +101,7 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 	private List<Key> nodePath2 = new ArrayList<>();
 	//will use lists as a method to track the nodes tha
 
-//	Key lowestCommonAncestor(Key node1, Key node2) {
-//		nodePath1.clear();
-//		nodePath2.clear();
-//		return findLowestCommonAncestor(root, node1, node2);
-//	}
-	
+
 	/**
 	 *  Search BST for given key.
 	 *  Does there exist a key-value pair with given key?
@@ -147,18 +142,20 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 			return "("+printKeysInOrder(node.left)+ node.data.toString() + printKeysInOrder(node.right)+")";
 	}
 
-
-	public Key findLowestCommonAncestor(Key n1, Key n2) {
+	public Key lowestCommonAncestor(Key node1, Key node2) {
+		nodePath1.clear();
+		nodePath2.clear();
+		return findLowestCommonAncestor(root, node1, node2);
+}
+	
+	private Key findLowestCommonAncestor(Node root, Key n1, Key n2) {
 
 		if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
-			System.out.println((nodePath1.size() > 0) ? "n1 is present" : "n1 is missing");
-			System.out.println((nodePath2.size() > 0) ? "n2 is present" : "n2 is missing");
 			return null;
 		}
 
 		int i;
 		for (i = 0; i < nodePath1.size() && i < nodePath2.size(); i++) {
-			//  System.out.println(path1.get(i) + " " + path2.get(i));
 			if (!nodePath1.get(i).equals(nodePath2.get(i)))
 				break;
 		}

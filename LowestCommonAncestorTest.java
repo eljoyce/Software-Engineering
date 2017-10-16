@@ -117,6 +117,7 @@ public class LowestCommonAncestorTest {
 		assertEquals("Function returns null if one key isn't in a tree", null, bst.lowestCommonAncestor(2, 9));
 		assertEquals("Function returns null if both keys aren't in the tree", null, bst.lowestCommonAncestor(12, 9));
 		assertEquals("Function returns 3 as it is the parent to both keys", (Integer)3, bst.lowestCommonAncestor(1,6));
+		assertEquals("Function returns 3 as it is the lowest common ancestor to both nodes", (Integer)3, bst.lowestCommonAncestor(5,2));
 
 	}
 

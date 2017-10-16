@@ -100,6 +100,11 @@ public class LowestCommonAncestorTest {
 		assertEquals("Deleting node with two children",
 				"(((()1())2(()4(()5())))7())", bst.printKeysInOrder());
 	}
+	@Test
+	public void testLowestCommonAncestor(){
+		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
+		assertEquals("Function returns null as binary tree is empty", null, bst.findLowestCommonAncestor(1,2));
+	}
 
 
 }

@@ -103,7 +103,7 @@ public class LowestCommonAncestorTest {
 	@Test
 	public void testLowestCommonAncestor(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
-		assertEquals("Function returns null as binary tree is empty", null, bst.findLowestCommonAncestor(1,2));
+		assertEquals("Function returns null as binary tree is empty", null, bst.lowestCommonAncestor(1,2));
 		bst.put(7);   //        _7_
 		bst.put(8);   //      /     \
 		bst.put(3);   //    _3_      8
@@ -113,10 +113,10 @@ public class LowestCommonAncestorTest {
 		bst.put(4);   //   2   4
 		bst.put(5);   //        \
 					  //         5
-		assertEquals("Function returns root as lca", (Integer)7, bst.findLowestCommonAncestor(2, 8));
-		assertEquals("Function returns null if one key isn't in a tree", null, bst.findLowestCommonAncestor(2, 9));
-		assertEquals("Function returns null if both keys aren't in the tree", null, bst.findLowestCommonAncestor(12, 9));
-		assertEquals("Function returns 3 as it is the parent to both keys", (Integer)3, bst.findLowestCommonAncestor(2,5));
+		assertEquals("Function returns root as lca", (Integer)7, bst.lowestCommonAncestor(2, 8));
+		assertEquals("Function returns null if one key isn't in a tree", null, bst.lowestCommonAncestor(2, 9));
+		assertEquals("Function returns null if both keys aren't in the tree", null, bst.lowestCommonAncestor(12, 9));
+		assertEquals("Function returns 3 as it is the parent to both keys", (Integer)3, bst.lowestCommonAncestor(1,6));
 
 	}
 

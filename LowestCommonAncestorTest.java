@@ -120,6 +120,16 @@ public class LowestCommonAncestorTest {
 		assertEquals("Function returns 3 as it is the lowest common ancestor to both nodes", (Integer)3, bst.lowestCommonAncestor(5,2));
 
 	}
+	@Test
+	public void testForNonExistentNode() {
+		LowestCommonAncestor<String> bst = new LowestCommonAncestor<String>();
+		bst.put("Ellen");
+		bst.put("Sarah");
+		bst.put("Maeve");
+
+		assertEquals("Testing for a non existent node in the tree", null, bst.lowestCommonAncestor("Ellen", "Eimear"));
+		assertEquals("Testing for a non existent node in the tree", null, bst.lowestCommonAncestor("Eimear","Dots"));
+	}
 
 
 }

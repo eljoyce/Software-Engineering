@@ -26,6 +26,61 @@ public class LowestCommonAncestorTest {
 		assertEquals("Check that put() inserts nodes correctly","(((()1())2(()3()))4((()5())6(()7())))",bst.printKeysInOrder());
 	}
 	@Test
+	public void testPutForShort(){
+		LowestCommonAncestor<Short> bst = new LowestCommonAncestor<Short>();
+		bst.put(null);
+		assertEquals("Test that put() does nothing if the value is null","()",bst.printKeysInOrder());
+		bst.put((short) 7);   //        _7_
+		bst.put((short) 8);   //      /     \
+		bst.put((short) 3);   //    _3_      8
+		bst.put((short) 1);   //  /     \
+		bst.put((short) 2);   // 1       6
+		bst.put((short) 6);   //  \     /
+		bst.put((short) 4);   //   2   4
+		bst.put((short) 5);   //        \
+							  //         5
+
+		assertEquals("Checking order of constructed tree",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		bst.put((short) 32769);
+		assertEquals("Checking order of constructed tree with element larger than short - element becomes -32767 dependent on its value and the fact it doesn't lie in range -32,768 -> 32,767 (inclusive)",
+				"((((()-32767())1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		bst.put((short) -400000);
+		assertEquals("Checking order of constructed tree with element larger than short - element becomes -6784 dependent on its value and the fact it doesn't lie in range -32,768 -> 32,767 (inclusive)",
+				"((((()-32767(()-6784()))1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		bst.put((short) -400001);
+		assertEquals("Checking order of constructed tree with element larger than short - element becomes -6785 dependent on its value and the fact it doesn't lie in range -32,768 -> 32,767 (inclusive)",
+				"((((()-32767((()-6785())-6784()))1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		bst.put((short) -65535);
+		assertEquals("Checking order of constructed tree with element larger than short - element becomes -65535 as a short is 1, which already exisits in the tree so it isn't included again",
+				"((((()-32767((()-6785())-6784()))1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+	}
+	@Test
+	public void testPutForByte(){
+		LowestCommonAncestor<Byte> bst = new LowestCommonAncestor<Byte>();
+		bst.put(null);
+		assertEquals("Test that put() does nothing if the value is null","()",bst.printKeysInOrder());
+		bst.put((byte) 7);   //        _7_
+		bst.put((byte) 8);   //      /     \
+		bst.put((byte) 3);   //    _3_      8
+		bst.put((byte) 1);   //  /     \
+		bst.put((byte) 2);   // 1       6
+		bst.put((byte) 6);   //  \     /
+		bst.put((byte) 4);   //   2   4
+		bst.put((byte) 5);   //        \
+							  //         5
+
+		assertEquals("Checking order of constructed tree",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		bst.put((byte) 32769);
+		short el = (byte) 32769;
+		System.out.print(el);
+		assertEquals("Checking order of constructed tree with element larger than byte - "
+				+ "nothing is put into the tree as if the element is larger than the range -128 -> 127(inclusive) so it takes the value 1, which already exists in the tree there for the tree remains the same",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+
+	}
+	@Test
 	public void testPutForString(){
 		LowestCommonAncestor<String> bst = new LowestCommonAncestor<String>();
 		bst.put(null);
@@ -38,6 +93,20 @@ public class LowestCommonAncestorTest {
 		bst.put("got very");	//					 \
 		bst.put("sweaty!");		//					  training
 		assertEquals("Check that put() inserts nodes in alphatbetic order","(()Ellen(((()and(()got very(()sweaty!())))to(()training()))went()))",bst.printKeysInOrder());
+	}
+	@Test
+	public void testPutForBoolean(){
+		LowestCommonAncestor<Boolean> bst = new LowestCommonAncestor<Boolean>();
+		bst.put(null);
+		assertEquals("Test that put() does nothing if the value is null","()",bst.printKeysInOrder());
+		bst.put(true);
+		bst.put(true);
+		bst.put(false);
+		bst.put(false);
+		bst.put(null);
+		bst.put(true);		
+		assertEquals("Check that put() inserts nodes correctly for boolean values, note: bst does no allow for repeat values so true & false c"
+				+ "an only appear once and null will not appear","((()false())true())",bst.printKeysInOrder());
 	}
 	@Test
 	public void testSizeInt() {
@@ -88,7 +157,7 @@ public class LowestCommonAncestorTest {
 		assertTrue("Checking contains() retuns true when bst isn't empty and conatins the key",bst.contains("Hello World"));
 	}
 	@Test
-	public void testGet(){
+	public void testGetInt(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertEquals("Check that get() returns null when given an empty list", null, bst.get(9));
 		bst.put(4);
@@ -100,15 +169,34 @@ public class LowestCommonAncestorTest {
 		assertEquals("Check that get() returns null when the key does not exist", null, bst.get(9));
 
 	}
+	@Test
+	public void testGetByte(){
+		LowestCommonAncestor<Byte> bst = new LowestCommonAncestor<Byte>();
+		assertEquals("Check that get() returns null when given an empty list", null, bst.get((byte)9));
+		bst.put((byte)4);
+		bst.put((byte)2);
+		bst.put((byte)-7);
+		assertEquals("Check that get() returns 4 when given 4", 4, (int)bst.get((byte)4));
+		assertEquals("Check that get() returns 7 when given 7", -7, (int)bst.get((byte)-7));
+		assertEquals("Check that get() returns null when the key does not exist", null, bst.get((byte)9));
+
+	}
 	@Test 
-	public void testIsEmpty(){
+	public void testIsEmptyInt(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertTrue("Checking isEmpty() returns true when bst is empty",bst.isEmpty());
 		bst.put(7);
 		assertFalse("Checking isEmpty() returns false when bst isn't empty",bst.isEmpty());
 	}
+	@Test 
+	public void testIsEmptyChar(){
+		LowestCommonAncestor<Character> bst = new LowestCommonAncestor<Character>();
+		assertTrue("Checking isEmpty() returns true when bst is empty",bst.isEmpty());
+		bst.put('t');
+		assertFalse("Checking isEmpty() returns false when bst isn't empty",bst.isEmpty());
+	}
 	@Test
-	public void testDelete() {
+	public void testDeleteInt() {
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		bst.delete(1);
 		assertEquals("Deleting from empty tree", "()", bst.printKeysInOrder());
@@ -138,6 +226,41 @@ public class LowestCommonAncestorTest {
 				"(((()1(()2()))3(()4(()5())))7())", bst.printKeysInOrder());
 
 		bst.delete(3);
+		assertEquals("Deleting node with two children",
+				"(((()1())2(()4(()5())))7())", bst.printKeysInOrder());
+	}
+	@Test
+	public void testDeleteShort() {
+		LowestCommonAncestor<Short> bst = new LowestCommonAncestor<Short>();
+		bst.delete((short) 1);
+		assertEquals("Deleting from empty tree", "()", bst.printKeysInOrder());
+
+		bst.put((short) 7);   //        _7_
+		bst.put((short) 8);   //      /     \
+		bst.put((short) 3);   //    _3_      8
+		bst.put((short) 1);   //  /     \
+		bst.put((short) 2);   // 1       6
+		bst.put((short) 6);   //  \     /
+		bst.put((short) 4);   //   2   4
+		bst.put((short) 5);   //        \
+							  //         5
+
+		assertEquals("Checking order of constructed tree",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+		
+		bst.delete((short) 9);
+		assertEquals("Deleting non-existent key",
+				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", bst.printKeysInOrder());
+
+		bst.delete((short) 8);
+		assertEquals("Deleting leaf", "(((()1(()2()))3((()4(()5()))6()))7())", bst.printKeysInOrder());
+
+		bst.delete((short) 6);
+		assertEquals("Deleting node with single child",
+				"(((()1(()2()))3(()4(()5())))7())", bst.printKeysInOrder());
+
+		bst.delete((short) 3);
+		bst.delete((short) -32769 );
 		assertEquals("Deleting node with two children",
 				"(((()1())2(()4(()5())))7())", bst.printKeysInOrder());
 	}

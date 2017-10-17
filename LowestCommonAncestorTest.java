@@ -12,7 +12,7 @@ import org.junit.runners.JUnit4;
 public class LowestCommonAncestorTest {
 
 	@Test
-	public void testPut(){
+	public void testPutForInteger(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		bst.put(null);
 		assertEquals("Test that put() does nothing if the value is null","()",bst.printKeysInOrder());
@@ -24,7 +24,20 @@ public class LowestCommonAncestorTest {
 		bst.put(7);		
 		bst.put(3);
 		assertEquals("Check that put() inserts nodes correctly","(((()1())2(()3()))4((()5())6(()7())))",bst.printKeysInOrder());
-
+	}
+	@Test
+	public void testPutForString(){
+		LowestCommonAncestor<String> bst = new LowestCommonAncestor<String>();
+		bst.put(null);
+		assertEquals("Test that put() does nothing if the value is null","()",bst.printKeysInOrder());
+		bst.put("Ellen");		//			_Ellen_
+		bst.put("went");		//		   /		\
+		bst.put("to");			//		_and_		_went_
+		bst.put("training");	//				   /	  \
+		bst.put("and");			//				 _to_		
+		bst.put("got very");	//					 \
+		bst.put("sweaty!");		//					  training
+		assertEquals("Check that put() inserts nodes in alphatbetic order","(()Ellen(((()and(()got very(()sweaty!())))to(()training()))went()))",bst.printKeysInOrder());
 	}
 	@Test
 	public void testSize() {
@@ -126,9 +139,16 @@ public class LowestCommonAncestorTest {
 		bst.put("Ellen");
 		bst.put("Sarah");
 		bst.put("Maeve");
-
-		assertEquals("Testing for a non existent node in the tree", null, bst.lowestCommonAncestor("Ellen", "Eimear"));
-		assertEquals("Testing for a non existent node in the tree", null, bst.lowestCommonAncestor("Eimear","Dots"));
+		assertEquals("Testing tree when one node doesn't exist", null, bst.lowestCommonAncestor("Ellen", "Eimear"));
+		assertEquals("Testing tree when both nodes don't exist", null, bst.lowestCommonAncestor("Eimear","Dots"));
+		
+		LowestCommonAncestor<Integer> bstInt = new LowestCommonAncestor<Integer>();
+		bstInt.put(1);
+		bstInt.put(3);
+		bstInt.put(2);
+		assertEquals("Testing tree when one node doesn't exist", null, bstInt.lowestCommonAncestor(5,1 ));
+		assertEquals("Testing tree when both nodes don't exist", null, bstInt.lowestCommonAncestor(5,7));
+		
 	}
 
 

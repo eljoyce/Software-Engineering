@@ -40,7 +40,7 @@ public class LowestCommonAncestorTest {
 		assertEquals("Check that put() inserts nodes in alphatbetic order","(()Ellen(((()and(()got very(()sweaty!())))to(()training()))went()))",bst.printKeysInOrder());
 	}
 	@Test
-	public void testSize() {
+	public void testSizeInt() {
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertEquals("Check that size() returns 0 when the tree is empty",0,bst.size());
 		bst.put(7);
@@ -51,13 +51,41 @@ public class LowestCommonAncestorTest {
 		bst.put(3);
 		assertEquals("Check that size = 3 because new element added already exists", 3, bst.size());
 	}
+	@Test
+	public void testSizeChar() {
+		LowestCommonAncestor<Character> bst = new LowestCommonAncestor<Character>();
+		assertEquals("Check that size() returns 0 when the tree is empty",0,bst.size());
+		bst.put('a');
+		assertEquals("Check that size = 1", 1, bst.size());
+		bst.put('z');
+		bst.put('w');
+		assertEquals("Check that size = 3", 3, bst.size());
+		bst.put('w');
+		assertEquals("Check that size = 3 because new element added already exists", 3, bst.size());
+	}
 	@Test 
-	public void testContains(){
+	public void testContainsInt(){
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertFalse("Checking contains() returns true when bst is empty",bst.contains(4));
 		bst.put(7);
 		assertFalse("Checking contains() returns false when bst isn't empty but doesn't contain the key",bst.contains(1));
 		assertTrue("Checking contains() retuns true when bst isn't empty and conatins the key",bst.contains(7));
+	}
+	@Test 
+	public void testContainsDouble(){
+		LowestCommonAncestor<Double> bst = new LowestCommonAncestor<Double>();
+		assertFalse("Checking contains() returns true when bst is empty",bst.contains(4.3));
+		bst.put(7.5);
+		assertFalse("Checking contains() returns false when bst isn't empty but doesn't contain the key",bst.contains(1.0));
+		assertTrue("Checking contains() retuns true when bst isn't empty and conatins the key",bst.contains(7.5));
+	}
+	@Test 
+	public void testContainsString(){
+		LowestCommonAncestor<String> bst = new LowestCommonAncestor<String>();
+		assertFalse("Checking contains() returns true when bst is empty",bst.contains("Hi"));
+		bst.put("Hello World");
+		assertFalse("Checking contains() returns false when bst isn't empty but doesn't contain the key",bst.contains("Hello World!"));
+		assertTrue("Checking contains() retuns true when bst isn't empty and conatins the key",bst.contains("Hello World"));
 	}
 	@Test
 	public void testGet(){

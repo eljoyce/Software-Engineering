@@ -27,7 +27,7 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 	 *  @param val the value associated with key
 	 */
 	public void put(Key key) {
-		if (key == null) { delete(key); return; }
+		if (key == null) {  return; }
 		root = put(root, key);
 	}
 
@@ -40,63 +40,19 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 		x.N = 1 + size(x.left) + size(x.right);
 		return x;
 	}
-	
-	/**
-	 * Deletes a key from a tree (if the key is in the tree).
-	 * Note that this method works symmetrically from the Hibbard deletion:
-	 * If the node to be deleted has two child nodes, then it needs to be
-	 * replaced with its predecessor (not its successor) node.
-	 *
-	 * @param key the key to delete
-	 */
-	public void delete(Key key) {
-		root = delete(root, key);
 
-	}
-	private Node delete(Node x, Key key) {                                  
-		if (x == null) return null;
-		int cmp = key.compareTo(x.data);
-		if      (cmp < 0) x.left  = delete(x.left,  key);
-		else if (cmp > 0) x.right = delete(x.right, key);
-		else { 
-			if (x.right == null) return x.left;
-			if (x.left  == null) return x.right;
-			Node t = x;
-			x = max(t.left);                              
-			x.left = deleteMax(t.left);                 
-			x.right = t.right;                                             
-		} 
-		x.N = size(x.left) + size(x.right) + 1;
-		return x;
-	} 
-
-	private Node deleteMax(Node x) 
-	{
-		if (x.right == null) return x.left;
-		x.right = deleteMax(x.right);
-		x.N = size(x.left) + size(x.right) + 1;                              
-		return x;
-	}
-
-	public Node max(Node node)   
-	{
-		if(node.right!=null)
-			return max(node.right);
-		return node;
-	}
-	
 	// is the tree empty?
 	public boolean isEmpty() { return size() == 0; }
-	
+
 	// return number of nodes in the tree
 	public int size() { return size(root); }
-	
+
 	// return number of key-value pairs in BST rooted at x
-		private int size(Node x) {
-			if (x == null) return 0;
-			else return x.N;
-		}
-	
+	private int size(Node x) {
+		if (x == null) return 0;
+		else return x.N;
+	}
+
 	private List<Key> nodePath1 = new ArrayList<>();
 	private List<Key> nodePath2 = new ArrayList<>();
 	//will use lists as a method to track the nodes tha
@@ -128,7 +84,7 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 		else if (cmp > 0) return get(x.right, key);
 		else              return x.data;
 	}
-	
+
 	public String printKeysInOrder() {
 		if (isEmpty()) return "()";
 		return  printKeysInOrder(root);
@@ -146,8 +102,8 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 		nodePath1.clear();
 		nodePath2.clear();
 		return findLowestCommonAncestor(root, node1, node2);
-}
-	
+	}
+
 	private Key findLowestCommonAncestor(Node root, Key n1, Key n2) {
 
 		if (!findPath(root, n1, nodePath1) || !findPath(root, n2, nodePath2)) {
@@ -187,4 +143,48 @@ public class LowestCommonAncestor<Key extends Comparable<Key>>
 
 		return false;
 	}
+
+	/**
+	 * Deletes a key from a tree (if the key is in the tree).
+	 * Note that this method works symmetrically from the Hibbard deletion:
+	 * If the node to be deleted has two child nodes, then it needs to be
+	 * replaced with its predecessor (not its successor) node.
+	 *
+	 * @param key the key to delete
+	 */
+	public void delete(Key key) {
+		root = delete(root, key);
+	}
+	private Node delete(Node x, Key key) {                                  
+		if (x == null) return null;
+		int cmp = key.compareTo(x.data);
+		if      (cmp < 0) x.left  = delete(x.left,  key);
+		else if (cmp > 0) x.right = delete(x.right, key);
+		else { 
+			if (x.right == null) return x.left;
+			if (x.left  == null) return x.right;
+			Node t = x;
+			x = max(t.left);                              
+			x.left = deleteMax(t.left);                 
+			x.right = t.right;                                             
+		} 
+		x.N = size(x.left) + size(x.right) + 1;
+		return x;
+	} 
+
+	private Node deleteMax(Node x) 
+	{
+		if (x.right == null) return x.left;
+		x.right = deleteMax(x.right);
+		x.N = size(x.left) + size(x.right) + 1;                              
+		return x;
+	}
+
+	public Node max(Node node)   
+	{
+		if(node.right!=null)
+			return max(node.right);
+		return node;
+	}
+
 }

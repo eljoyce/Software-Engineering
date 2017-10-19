@@ -16,6 +16,7 @@ public class LowestCommonAncestorTest {
 		LowestCommonAncestor<Integer> bst = new LowestCommonAncestor<Integer>();
 		assertEquals("Function returns null as binary tree is empty", null, bst.lowestCommonAncestor(1,2));
 		bst.put(7);   //        _7_
+		assertEquals("Function returns null if root is the tree as there is only one node", null, bst.lowestCommonAncestor(null, 7));
 		bst.put(8);   //      /     \
 		bst.put(3);   //    _3_      8
 		bst.put(1);   //  /     \
@@ -24,6 +25,8 @@ public class LowestCommonAncestorTest {
 		bst.put(4);   //   2   4
 		bst.put(5);   //        \
 					  //         5
+		assertEquals("Function returns null if the two inputs are null", null, bst.lowestCommonAncestor(null, null));
+		//Note: the code does not run if you enter the wrong type into either the lca function or put function
 		assertEquals("Function returns root as lca", (Integer)7, bst.lowestCommonAncestor(2, 8));
 		assertEquals("Function returns null if one key isn't in a tree", null, bst.lowestCommonAncestor(2, 9));
 		assertEquals("Function returns null if both keys aren't in the tree", null, bst.lowestCommonAncestor(12, 9));

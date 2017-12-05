@@ -1,0 +1,22 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class DirectedAcyclicGraphTest {
+
+	@Test
+	public void testSizeEmpty() {
+		DirectedAcyclicGraph binaryTreeEmpty = new DirectedAcyclicGraph();
+
+		assertEquals("Lowest common ancestor of empty tree", -1,
+				binaryTreeEmpty.LowestCommonAncestorFunctionBinaryTree(0, 0));
+	}
+
+	@Test
+	public void testSizeOneNode() {
+		DirectedAcyclicGraph binaryTreeOneNode = new DirectedAcyclicGraph();
+		binaryTreeOneNode.rootNode = new Node(1);
+
+		assertEquals("Lowest common ancestor of one node tree", -1,
+				binaryTreeOneNode.LowestCommonAncestorFunctionBinaryTree(1, 0));
+	}

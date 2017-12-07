@@ -17,4 +17,127 @@ class Node {
 	
 }
 public class DirectedAcyclicGraph {
+public class DirectedAcyclicGraph {
+
+	Node rootNode;
+	List<Integer> Node1Path = new ArrayList<>();
+	List<Integer> Node2Path = new ArrayList<>();
+	
+	int LowestCommonAncestorFunctionBinaryTree (int nodeA, int nodeB)
+	{
+		Node1Path.clear();
+		Node2Path.clear();
+		return findLowestCommonAncestorBinaryTree(rootNode, nodeA, nodeB);
+	}
+	
+	int LowestCommonAncestorFunctionDAG (Node nodeA, Node nodeA)
+	{
+		return findLowestCommonAncestorDAG(rootNode, nodeA, nodeB);
+	}
+	
+	private int findLowestCommonAncestorBinaryTree(Node rootNode, int nodeA, int nodeB)
+	{
+		if (!findPathBinaryTree(rootNode, nodeA, NodeAPath) || !findPathBinaryTree(rootNode, nodeB, NodeBPath)) 
+			{
+				if(NodeAPath.size() == 0 && NodeBPath.size() == 0)
+				{
+					if(!NodeAPath.contains(nodeA) && !NodeBPath.contains(nodeB))
+					{
+						System.out.println("These nodes does not exist in the tree.");
+					}
+					else
+					System.out.println("Tree is empty.");
+				}
+				if (NodeAPath.size() > 0 && NodeBPath.size() == 0)
+				{
+					System.out.println("Node A is present but Node B is not.");
+				}
+				if (NodeBPath.size() > 0 && NodeAPath.size() == 0)
+				{
+					System.out.println("Node B is present but Node A is not.");
+				}
+				return -1;
+			}
+			int i;
+			for (i = 0; i < NodeAPath.size() && i < NodeBPath.size(); i++)
+			{
+				if (!NodeAPath.get(i).equals(NodeBPath.get(i)))
+				{
+					break;
+				}
+			}
+			return NodeAPath.get(i - 1);
+	}
+	
+	int findLowestCommonAncestorDAG(Node rootNode, Node nodeA, Node nodeB)
+	{
+		if(nodeA != null && nodeB != null) 
+		{
+		if (nodeA.ancestors != null && nodeB.ancestors != null) {
+			for (int i = 0; i < nodeB.ancestors.size(); i++) {
+				for (int j = 0; j < nodeA.ancestors.size(); j++) {
+					if (nodeB.ancestors.get(i) == nodeA.ancestors.get(j)) {
+						return nodeB.ancestors.get(i).data;
+					}
+				}
+			}
+		} else
+			return rootNode.data;
+		}
+		return 0;
+	}
+	
+	private boolean findPathBinaryTree(Node rootNode, int n, List<Integer> path)
+    {
+        if (rootNode == null) {
+            return false;
+        }
+ 
+        path.add(rootNode.data);
+ 
+        if (rootNode.data == n) {
+            return true;
+        }
+ 
+        if (rootNode.left != null && findPathBinaryTree(rootNode.left, n, path)) {
+            return true;
+        }
+ 
+        if (rootNode.right != null && findPathBinaryTree(rootNode.right, n, path)) {
+            return true;
+        }
+ 
+        path.remove(path.size()-1);
+ 
+        return false;
+    }
+	
+	
+	
+	public void addAncestorsToNode(Node nodeA, Node nodeB)
+	{
+		for (int i=0; i < nodeA.ancestors.size(); i++)
+		{
+			if(!nodeB.ancestors.contains(nodeA.ancestors.get(i)))
+			{
+				nodeB.ancestors.add(nodeA.ancestors.get(i));
+			}
+		}
+	}
+	public void addAncestorsToNodeAtPosition(int position, Node nodeA, Node nodeB)
+	{
+		for (int i=0; i < nodeA.ancestors.size(); i++)
+		{
+			if(!nodeB.ancestors.contains(nodeA.ancestors.get(i)))
+			{
+				nodeB.ancestors.add(position, nodeA.ancestors.get(i));
+			}
+		}
+	}
+	public void addToGraph(Node nodeA)
+	{
+		nodeA.ancestors = new ArrayList <Node> ();
+		nodeA.ancestors.add(nodeA);
+		
+	}
 }
